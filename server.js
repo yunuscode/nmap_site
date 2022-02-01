@@ -6,6 +6,7 @@ const router = require("./routes");
 const app = express();
 const path = require("path");
 const backgroundWorker = require("./modules/backgroundWorker");
+const { Op } = require("sequelize");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +22,16 @@ async function server() {
 		app.use(router);
 
 		backgroundWorker(db);
+
+		setInterval(async () => {
+			await db.histories.destroy({
+				where: {
+					createdAt: {
+						[Op.lt]: new Date(new Date() - 1000000000),
+					},
+				},
+			});
+		}, 1000000);
 	} catch (error) {
 		console.log(`Server error:`, error);
 	}
