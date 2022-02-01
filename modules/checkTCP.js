@@ -14,9 +14,7 @@ async function checkTCP(ip) {
 		query += `-6 `;
 	}
 
-	const { stdout, stderr } = await exec(
-		query + ip + (net.isIPv6(ip) ? "%eth0" : "")
-	);
+	const { stdout, stderr } = await exec(query + ip);
 
 	if (stderr.length) {
 		throw new Error(stderr);
