@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="./style.css" />
 	</head>
 	<body>
-		<div id="first_show_section" class="container none">
+		<div id="first_show_section" class="container">
 			<div class="header">
 				<h2 class="title">Self-Scan</h2>
 			</div>
@@ -55,7 +55,7 @@
 			</main>
 		</div>
 
-		<div id="third_show_section" class="container">
+		<div id="third_show_section" class="container none">
 			<div class="header">
 				<h2 class="title">Self-Scan progress...</h2>
 			</div>
@@ -84,11 +84,11 @@
 								<th>Details</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
+						<tbody class="tbody">
+							<!-- <tr>
 								<td>80 Port</td>
 								<td>Opened</td>
-							</tr>
+							</tr> -->
 						</tbody>
 					</table>
 				</div>
@@ -98,9 +98,13 @@
 			const checkbox = document.querySelector("#checkbox");
 			const button = document.querySelector(".start_scan");
 			const firstSection = document.querySelector("#first_show_section");
+			const thirdSection = document.querySelector("#third_show_section");
+			const tbody = document.querySelector(".tbody");
 			const secondSection = document.querySelector(
 				"#second_show_section"
 			);
+			let history_id;
+			let count = 10;
 			const fluid = document.querySelector(".fluid");
 			const fluid_text = document.querySelector(".fluid_text");
 
@@ -108,18 +112,66 @@
 				button.disabled = !evt.target.checked;
 			});
 
-			button.addEventListener("click", (e) => {
-				firstSection.classList.add("none");
-				secondSection.classList.remove("none");
+			button.addEventListener("click", async (e) => {
+				let data = await fetch("/start");
+				data = await data.json();
+
+				if (!data?.error) {
+					history_id = data.history_id;
+
+					firstSection.classList.add("none");
+					secondSection.classList.remove("none");
+
+					fluid_text.textContent = parseInt(100 / count) + "%";
+					fluid.style.width = parseInt(100 / count) + "%";
+
+					getData(history_id);
+				}
 			});
 
-			i = 1;
-			// setInterval(() => {
-			// 	console.log(i + "%");
-			// 	fluid.style.width = i + "%";
-			// 	fluid_text.textContent = i + "%";
-			// 	i++;
-			// }, 500);
+			async function getData(id) {
+				let data = await fetch("/" + id);
+				data = await data.json();
+
+				if (!data.count) {
+					renderData(data.history_data);
+					secondSection.classList.add("none");
+					thirdSection.classList.remove("none");
+				} else {
+					setTimeout(() => {
+						getData(id);
+					}, 3000);
+					count = data.count + 1;
+					fluid_text.textContent = parseInt(100 / count) + "%";
+					fluid.style.width = parseInt(100 / count) + "%";
+				}
+			}
+
+			function renderData(data) {
+				fluid_text.textContent = parseInt(100 / count) + "%";
+				fluid.style.width = parseInt(100 / count) + "%";
+
+				for (let i in data) {
+					for (let d of data[i]) {
+						d = d.split(" ");
+						d = d.filter((e) => e.length);
+						if (d.length) {
+							const trElement = document.createElement("tr");
+							const tdOneElement = document.createElement("td");
+							const tdTwoElement = document.createElement("td");
+
+							tdOneElement.textContent = d[0] + " " + d[2];
+							tdTwoElement.textContent = "Opened";
+
+							trElement.appendChild(tdOneElement);
+							trElement.appendChild(tdTwoElement);
+							if (d[1]?.startsWith("open")) {
+								tbody.appendChild(trElement);
+							}
+						}
+					}
+				}
+			}
 		</script>
 	</body>
 </html>

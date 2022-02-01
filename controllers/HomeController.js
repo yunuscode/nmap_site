@@ -1,6 +1,7 @@
 const checkTCP = require("../modules/checkTCP");
 const net = require("net");
 const checkUDP = require("../modules/checkUDP");
+const { Op } = require("sequelize");
 
 module.exports = class HomeController {
 	static async HomeGetController(req, res) {
@@ -21,16 +22,29 @@ module.exports = class HomeController {
 			if (!(net.isIPv4(ip) || net.isIPv6(ip))) {
 				throw new Error("test");
 			}
+
+			const data = await req.db.histories.findOne({
+				where: {
+					history_done: false,
+					history_ip: ip,
+				},
+				raw: true,
+			});
+
+			console.log(data);
+
 			// const IP = `2604:a880:400:d0::1d31:d001`;
 
 			// const udp = await checkUDP(ip);
 			// const tcp = await checkTCP(ip);
 
-			const newData = await req.db.histories.create({
-				history_ip: ip,
-			});
+			if (!data) {
+				data = await req.db.histories.create({
+					history_ip: ip,
+				});
+			}
 
-			res.json(newData);
+			res.json(data);
 		} catch (error) {
 			res.json({
 				error: true,
@@ -46,6 +60,15 @@ module.exports = class HomeController {
 				throw new Error("Error");
 			}
 
+			const count = await req.db.histories.count({
+				where: {
+					createdAt: {
+						[Op.lt]: new Date(),
+					},
+					history_done: false,
+				},
+			});
+
 			const data = await req.db.histories.findOne({
 				where: {
 					history_id,
@@ -57,7 +80,10 @@ module.exports = class HomeController {
 				throw new Error("test");
 			}
 
-			res.json(data);
+			res.json({
+				...data,
+				count,
+			});
 		} catch (error) {
 			res.json({
 				error,
