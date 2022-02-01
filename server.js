@@ -4,9 +4,11 @@ const databaseMiddleware = require("./middlewares/databaseMiddleware");
 const sequelize = require("./modules/sequelize");
 const router = require("./routes");
 const app = express();
+const path = require("path");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 app.set("view engine", "ejs");
 
 app.listen(process.env.PORT || 8080);
