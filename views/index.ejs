@@ -8,12 +8,118 @@
 		<link rel="stylesheet" href="./style.css" />
 	</head>
 	<body>
-		<header>
-			<div class="container">
-				<h2>Self-Scan</h2>
-
-				<a href="/start">Start scan</a>
+		<div id="first_show_section" class="container none">
+			<div class="header">
+				<h2 class="title">Self-Scan</h2>
 			</div>
-		</header>
+
+			<main>
+				<p class="policy">
+					The self-scan attempts to find possible entry points for
+					hackers into your externally available infrastructure.
+					Please click on "START TEST" to test your system.
+				</p>
+
+				<div class="wrapper">
+					<button class="start_scan">Start scan</button>
+					<label class="checkbox_wrapper">
+						<input
+							class="input_checkbox"
+							type="checkbox"
+							name=""
+							id="checkbox"
+							checked
+						/>
+						<p>I agree to have my system scanned from externally</p>
+					</label>
+				</div>
+			</main>
+		</div>
+		<div id="second_show_section" class="container none">
+			<div class="header">
+				<h2 class="title">Self-Scan progress...</h2>
+			</div>
+
+			<main>
+				<div class="white_wrapper">
+					<p class="policy">
+						We are scanning your system. Please wait...
+					</p>
+
+					<div class="progress_bar">
+						<div class="fluid">
+							<p class="fluid_text">35%</p>
+						</div>
+					</div>
+				</div>
+			</main>
+		</div>
+
+		<div id="third_show_section" class="container">
+			<div class="header">
+				<h2 class="title">Self-Scan progress...</h2>
+			</div>
+
+			<main>
+				<div class="white_wrapper">
+					<div class="top_header">
+						<img
+							class="traffic_image"
+							src="./traffic.png"
+							alt="Traffic"
+						/>
+						<div class="warning_wrapper">
+							<h2 class="warning_title">Warning!</h2>
+							<p class="warning_text">
+								The scanner detected a few possible
+								vulnerabilities
+							</p>
+						</div>
+					</div>
+
+					<table>
+						<thead>
+							<tr>
+								<th>Services</th>
+								<th>Details</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>80 Port</td>
+								<td>Opened</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</main>
+		</div>
+		<script>
+			const checkbox = document.querySelector("#checkbox");
+			const button = document.querySelector(".start_scan");
+			const firstSection = document.querySelector("#first_show_section");
+			const secondSection = document.querySelector(
+				"#second_show_section"
+			);
+			const fluid = document.querySelector(".fluid");
+			const fluid_text = document.querySelector(".fluid_text");
+
+			checkbox.addEventListener("change", (evt) => {
+				button.disabled = !evt.target.checked;
+			});
+
+			button.addEventListener("click", (e) => {
+				firstSection.classList.add("none");
+				secondSection.classList.remove("none");
+			});
+
+			i = 1;
+			// setInterval(() => {
+			// 	console.log(i + "%");
+			// 	fluid.style.width = i + "%";
+			// 	fluid_text.textContent = i + "%";
+			// 	i++;
+			// }, 500);
+		</script>
 	</body>
 </html>

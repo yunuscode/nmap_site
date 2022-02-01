@@ -5,9 +5,148 @@
 }
 
 .container {
-	width: 1140px;
+	width: 80%;
 	margin: 0 auto;
+}
+
+body {
+	font-family: sans-serif;
 }
 
 /* PrimaryColor #d14d02
 BackgroundColor #e8e7e0 */
+
+.header {
+	background-color: #d14d02;
+	color: white;
+	text-align: center;
+	padding: 30px;
+	text-transform: uppercase;
+}
+
+.title {
+	font-weight: 400;
+}
+
+main {
+	background-color: #e8e7e0;
+	padding: 60px 80px;
+	padding: 40px 60px;
+}
+
+.policy {
+	font-size: 20px;
+}
+
+.wrapper {
+	margin-top: 40px;
+	background-color: white;
+	display: flex;
+	padding: 30px;
+}
+
+.start_scan {
+	padding: 20px 40px;
+	font-size: 18px;
+	background-color: #d14d02;
+	color: white;
+	border: none;
+}
+
+.start_scan:disabled {
+	opacity: 0.7;
+	cursor: no-drop;
+}
+
+.checkbox_wrapper {
+	padding: 20px;
+	display: flex;
+	align-items: center;
+}
+
+.input_checkbox {
+	width: 20px;
+	height: 20px;
+	margin-right: 10px;
+}
+
+.none {
+	display: none;
+}
+
+.white_wrapper {
+	color: #d14d02;
+	padding: 40px;
+	background-color: white;
+}
+
+.progress_bar {
+	margin-top: 30px;
+	padding: 15px;
+	border-radius: 20px;
+	overflow: hidden;
+	background-color: #22222277;
+	position: relative;
+}
+
+.fluid {
+	width: 37%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-radius: 20px;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #d14d02;
+	transition: width 1s ease-in-out;
+}
+
+.traffic_image {
+	width: 10%;
+}
+
+.top_header {
+	display: flex;
+}
+
+.warning_wrapper {
+	width: 90%;
+	display: flex;
+	padding: 20px;
+	background-color: #e8e7e0;
+	justify-content: center;
+	flex-direction: column;
+	color: black !important;
+}
+
+.warning_title {
+	margin-bottom: 10px;
+	font-size: 30px;
+}
+
+.warning_text {
+	font-size: 18px;
+}
+
+table {
+	width: 100%;
+	margin-top: 20px;
+	border-collapse: collapse;
+	font-size: 18px;
+}
+
+th {
+	background-color: #d14d02;
+	color: white;
+	padding: 10px;
+	text-align: start;
+}
+
+td {
+	padding: 10px;
+	border: 1px solid #22222288;
+	color: #000000;
+}

@@ -11,7 +11,6 @@ module.exports = class HomeController {
 	}
 	static async HomeScanController(req, res) {
 		let ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
-		console.log(ip);
 
 		if (ip.substr(0, 7) == "::ffff:") {
 			ip = ip.substr(7);
