@@ -120,6 +120,9 @@
 			);
 			let history_id;
 			let count = 10;
+			const wt = document.querySelector(".warning_title");
+			const wi = document.querySelector(".traffic_image");
+			const wte = document.querySelector(".warning_text");
 			const fluid = document.querySelector(".fluid");
 			const fluid_text = document.querySelector(".fluid_text");
 
@@ -170,6 +173,8 @@
 				fluid_text.textContent = parseInt(100 / count) + "%";
 				fluid.style.width = parseInt(100 / count) + "%";
 
+				let x = 0;
+
 				for (let i in data) {
 					for (let d of data[i]) {
 						d = d.split(" ");
@@ -186,9 +191,16 @@
 							trElement.appendChild(tdTwoElement);
 							if (d[1]?.startsWith("open")) {
 								tbody.appendChild(trElement);
+								x++;
 							}
 						}
 					}
+				}
+
+				if (!x) {
+					wt.textContent = "Super! All ports are closed.";
+					wi.src = "../green.png";
+					wte.textContent = "";
 				}
 			}
 		</script>
