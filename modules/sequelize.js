@@ -2,7 +2,7 @@ const { Sequelize } = require("sequelize");
 const HistoryModel = require("../models/HistoryModel");
 
 const sequelize = new Sequelize(process.env.PSQL_URL, {
-	logging: console.log,
+	logging: false,
 });
 
 module.exports = async function psql() {
