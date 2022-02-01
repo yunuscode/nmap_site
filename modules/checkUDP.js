@@ -20,6 +20,8 @@ async function checkUDP(ip) {
 		return;
 	}
 
+	console.log(stdout);
+
 	const lines = stdout.split("\n");
 	let ports = [];
 

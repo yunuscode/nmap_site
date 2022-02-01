@@ -11,6 +11,7 @@ module.exports = class HomeController {
 	}
 	static async HomeScanController(req, res) {
 		const IP = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+		console.log(IP);
 		// const IP = `2604:a880:400:d0::1d31:d001`;
 
 		const udp = await checkUDP(IP);
