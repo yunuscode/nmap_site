@@ -1,4 +1,5 @@
 const { Sequelize } = require("sequelize");
+const HistoryModel = require("../models/HistoryModel");
 
 const sequelize = new Sequelize(process.env.PSQL_URL, {
 	logging: console.log,
@@ -6,9 +7,13 @@ const sequelize = new Sequelize(process.env.PSQL_URL, {
 
 module.exports = async function psql() {
 	try {
-		console.log(process.env.PSQL_URL);
+		let db = {};
 
-		await sequelize.authenticate();
+		db.histories = await HistoryModel(sequelize, Sequelize);
+
+		await sequelize.sync({ force: true });
+
+		return db;
 	} catch (error) {
 		console.log(error);
 	}

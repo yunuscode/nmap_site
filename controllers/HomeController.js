@@ -17,12 +17,15 @@ module.exports = class HomeController {
 		}
 		// const IP = `2604:a880:400:d0::1d31:d001`;
 
-		const udp = await checkUDP(ip);
-		const tcp = await checkTCP(ip);
+		// const udp = await checkUDP(ip);
+		// const tcp = await checkTCP(ip);
 
-		res.render("results", {
-			udp,
-			tcp,
+		const newData = await req.db.histories.create({
+			history_ip: ip,
 		});
+
+		console.log(newData);
+
+		res.json(newData);
 	}
 };
