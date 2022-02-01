@@ -1,6 +1,7 @@
 const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 const net = require("net");
+const os = require("os");
 
 async function checkTCP(ip) {
 	if (!(net.isIPv4(ip) || net.isIPv6(ip))) {
@@ -13,7 +14,9 @@ async function checkTCP(ip) {
 		query += `-6 `;
 	}
 
-	const { stdout, stderr } = await exec(query + ip);
+	const { stdout, stderr } = await exec(
+		query + ip + (net.isIPv6(ip) ? "%eth0" : "")
+	);
 
 	if (stderr.length) {
 		throw new Error(stderr);
