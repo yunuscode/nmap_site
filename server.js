@@ -5,6 +5,7 @@ const sequelize = require("./modules/sequelize");
 const router = require("./routes");
 const app = express();
 const path = require("path");
+const backgroundWorker = require("./modules/backgroundWorker");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -18,6 +19,8 @@ async function server() {
 		let db = await sequelize();
 		app.use((req, res, next) => databaseMiddleware(req, res, next, db));
 		app.use(router);
+
+		backgroundWorker(db);
 	} catch (error) {
 		console.log(`Server error:`, error);
 	}

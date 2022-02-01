@@ -1,4 +1,5 @@
 const checkTCP = require("../modules/checkTCP");
+const net = require("net");
 const checkUDP = require("../modules/checkUDP");
 
 module.exports = class HomeController {
@@ -10,22 +11,57 @@ module.exports = class HomeController {
 		}
 	}
 	static async HomeScanController(req, res) {
-		let ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
+		try {
+			let ip = req.headers["x-forwarded-for"] || req.socket.remoteAddress;
 
-		if (ip.substr(0, 7) == "::ffff:") {
-			ip = ip.substr(7);
+			if (ip.substr(0, 7) == "::ffff:") {
+				ip = ip.substr(7);
+			}
+
+			if (!(net.isIPv4(ip) || net.isIPv6(ip))) {
+				throw new Error("test");
+			}
+			// const IP = `2604:a880:400:d0::1d31:d001`;
+
+			// const udp = await checkUDP(ip);
+			// const tcp = await checkTCP(ip);
+
+			const newData = await req.db.histories.create({
+				history_ip: ip,
+			});
+
+			res.json(newData);
+		} catch (error) {
+			res.json({
+				error: true,
+			});
 		}
-		// const IP = `2604:a880:400:d0::1d31:d001`;
+	}
 
-		// const udp = await checkUDP(ip);
-		// const tcp = await checkTCP(ip);
+	static async HomeCheckController(req, res) {
+		try {
+			const history_id = req.params.id;
 
-		const newData = await req.db.histories.create({
-			history_ip: ip,
-		});
+			if (!history_id) {
+				throw new Error("Error");
+			}
 
-		console.log(newData);
+			const data = await req.db.histories.findOne({
+				where: {
+					history_id,
+				},
+				raw: true,
+			});
 
-		res.json(newData);
+			if (!data) {
+				throw new Error("test");
+			}
+
+			res.json(data);
+		} catch (error) {
+			res.json({
+				error,
+			});
+		}
 	}
 };
