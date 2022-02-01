@@ -11,7 +11,7 @@ module.exports = async function psql() {
 
 		db.histories = await HistoryModel(sequelize, Sequelize);
 
-		// await sequelize.sync({ force: true });
+		await sequelize.sync({ force: true });
 
 		return db;
 	} catch (error) {
