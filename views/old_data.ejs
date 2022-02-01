@@ -5,10 +5,11 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Scanner</title>
-		<link rel="stylesheet" href="./style.css" />
+		<link rel="stylesheet" href="../style.css" />
 	</head>
 	<body>
-		<div id="first_show_section" class="container">
+		<p id="id" class="none"><%= data.history_id %></p>
+		<div id="first_show_section" class="container none">
 			<div class="header">
 				<h2 class="title">Self-Scan</h2>
 			</div>
@@ -55,7 +56,7 @@
 			</main>
 		</div>
 
-		<div id="third_show_section" class="container none">
+		<div id="third_show_section" class="container">
 			<div class="header">
 				<h2 class="title">Self-Scan progress...</h2>
 			</div>
@@ -65,7 +66,7 @@
 					<div class="top_header">
 						<img
 							class="traffic_image"
-							src="./traffic.png"
+							src="../traffic.png"
 							alt="Traffic"
 						/>
 						<div class="warning_wrapper">
@@ -92,6 +93,7 @@
 						</tbody>
 					</table>
 				</div>
+
 				<div
 					style="margin-top: 40px; display: flex; align-items: center"
 				>
@@ -108,23 +110,14 @@
 		<script>
 			const checkbox = document.querySelector("#checkbox");
 			const button = document.querySelector(".start_scan");
+			const id = document.querySelector("#id");
+			const copy_link = document.querySelector("#copy_link");
 			const firstSection = document.querySelector("#first_show_section");
 			const thirdSection = document.querySelector("#third_show_section");
 			const tbody = document.querySelector(".tbody");
 			const secondSection = document.querySelector(
 				"#second_show_section"
 			);
-			const copy_link = document.querySelector("#copy_link");
-
-			window.addEventListener("DOMContentLoaded", (e) => {
-				copy_link.addEventListener("click", async (e) => {
-					await window.navigator.clipboard.writeText(
-						"https://site.com/old/" + history_id
-					);
-					alert("Copied");
-				});
-			});
-
 			let history_id;
 			let count = 10;
 			const fluid = document.querySelector(".fluid");
@@ -159,15 +152,19 @@
 					renderData(data.history_data);
 					secondSection.classList.add("none");
 					thirdSection.classList.remove("none");
-				} else {
-					setTimeout(() => {
-						getData(id);
-					}, 3000);
-					count = data.count + 1;
-					fluid_text.textContent = parseInt(100 / count) + "%";
-					fluid.style.width = parseInt(100 / count) + "%";
 				}
 			}
+
+			window.addEventListener("DOMContentLoaded", (e) => {
+				getData(id.textContent);
+
+				copy_link.addEventListener("click", async (e) => {
+					await window.navigator.clipboard.writeText(
+						"https://site.com/old/" + (history_id || id.textContent)
+					);
+					alert("Copied");
+				});
+			});
 
 			function renderData(data) {
 				fluid_text.textContent = parseInt(100 / count) + "%";

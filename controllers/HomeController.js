@@ -90,4 +90,30 @@ module.exports = class HomeController {
 			});
 		}
 	}
+
+	static async HomeSavedController(req, res) {
+		try {
+			const history_id = req.params.id;
+
+			if (!history_id) {
+				throw new Error("Error");
+			}
+
+			const data = await req.db.histories.findOne({
+				where: {
+					history_id,
+					history_done: true,
+				},
+				raw: true,
+			});
+
+			if (data) {
+				res.render("old_data", {
+					data,
+				});
+			}
+		} catch (error) {
+			res.redirect("/");
+		}
+	}
 };
