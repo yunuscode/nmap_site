@@ -58,7 +58,7 @@
 
 		<div id="third_show_section" class="container">
 			<div class="header">
-				<h2 class="title">Self-Scan progress...</h2>
+				<h2 class="title">Self-Scan</h2>
 			</div>
 
 			<main>
@@ -125,6 +125,8 @@
 			const wte = document.querySelector(".warning_text");
 			const fluid = document.querySelector(".fluid");
 			const fluid_text = document.querySelector(".fluid_text");
+			const table = document.querySelector("#table");
+			const copy_info = document.querySelector("#copy_info");
 
 			checkbox.addEventListener("change", (evt) => {
 				button.disabled = !evt.target.checked;
@@ -201,6 +203,8 @@
 					wt.textContent = "Super! All ports are closed.";
 					wi.src = "../green.png";
 					wte.textContent = "";
+					table.classList.add("none");
+					copy_info.remove();
 				}
 			}
 		</script>

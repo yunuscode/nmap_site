@@ -23,15 +23,13 @@ module.exports = class HomeController {
 				throw new Error("test");
 			}
 
-			const data = await req.db.histories.findOne({
+			let data = await req.db.histories.findOne({
 				where: {
 					history_done: false,
 					history_ip: ip,
 				},
 				raw: true,
 			});
-
-			console.log(data);
 
 			// const IP = `2604:a880:400:d0::1d31:d001`;
 
@@ -46,6 +44,7 @@ module.exports = class HomeController {
 
 			res.json(data);
 		} catch (error) {
+			console.log(error);
 			res.json({
 				error: true,
 			});

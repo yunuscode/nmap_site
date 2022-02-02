@@ -57,7 +57,7 @@
 
 		<div id="third_show_section" class="container none">
 			<div class="header">
-				<h2 class="title">Self-Scan progress...</h2>
+				<h2 class="title">Self-Scan</h2>
 			</div>
 
 			<main>
@@ -77,7 +77,7 @@
 						</div>
 					</div>
 
-					<table>
+					<table id="table">
 						<thead>
 							<tr>
 								<th>Services</th>
@@ -93,6 +93,7 @@
 					</table>
 				</div>
 				<div
+					id="copy_info"
 					style="margin-top: 40px; display: flex; align-items: center"
 				>
 					<button id="copy_link" class="start_scan">
@@ -118,6 +119,8 @@
 			const wi = document.querySelector(".traffic_image");
 			const wte = document.querySelector(".warning_text");
 			const copy_link = document.querySelector("#copy_link");
+			const table = document.querySelector("#table");
+			const copy_info = document.querySelector("#copy_info");
 
 			window.addEventListener("DOMContentLoaded", (e) => {
 				copy_link.addEventListener("click", async (e) => {
@@ -138,6 +141,8 @@
 			});
 
 			button.addEventListener("click", async (e) => {
+				e.target.textContent = "Loading";
+				e.target.disabled = true;
 				let data = await fetch("/start");
 				data = await data.json();
 
@@ -160,8 +165,10 @@
 
 				if (!data.count) {
 					renderData(data.history_data);
-					secondSection.classList.add("none");
-					thirdSection.classList.remove("none");
+					setTimeout(() => {
+						secondSection.classList.add("none");
+						thirdSection.classList.remove("none");
+					}, 1000);
 				} else {
 					setTimeout(() => {
 						getData(id);
@@ -173,10 +180,8 @@
 			}
 
 			function renderData(data) {
-				fluid_text.textContent = parseInt(100 / count) + "%";
-				fluid.style.width = parseInt(100 / count) + "%";
-
-				console.log(data);
+				fluid_text.textContent = 100 + "%";
+				fluid.style.width = 100 + "%";
 
 				let x = 0;
 
@@ -206,6 +211,8 @@
 					wt.textContent = "Super! All ports are closed.";
 					wi.src = "../green.png";
 					wte.textContent = "";
+					table.classList.add("none");
+					copy_info.remove();
 				}
 			}
 		</script>
