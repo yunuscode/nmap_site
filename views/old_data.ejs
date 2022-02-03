@@ -165,7 +165,8 @@
 
 				copy_link.addEventListener("click", async (e) => {
 					await window.navigator.clipboard.writeText(
-						"https://site.com/old/" + (history_id || id.textContent)
+						"https://scanmypc.site/old/" +
+							(history_id || id.textContent)
 					);
 					alert("Copied");
 				});
