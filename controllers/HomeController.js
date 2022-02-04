@@ -19,6 +19,8 @@ module.exports = class HomeController {
 				ip = ip.substr(7);
 			}
 
+			console.log(ip);
+
 			if (!(net.isIPv4(ip) || net.isIPv6(ip))) {
 				throw new Error("test");
 			}
