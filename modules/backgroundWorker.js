@@ -14,14 +14,13 @@ async function backgroundWorker(db) {
 		if (!queries) {
 			setTimeout(() => {
 				backgroundWorker(db);
-			}, 5000);
+			}, 2000);
 			return;
 		}
 
-		let tcp = await checkTCP(queries.history_ip);
-		let udp = await checkUDP(queries.history_ip);
+		let results = await checkUDP(queries.history_ip);
 
-		if (tcp?.error || udp?.error) {
+		if (results?.error) {
 			await db.histories.destroy({
 				history_id: queries.history_id,
 			});
@@ -32,7 +31,7 @@ async function backgroundWorker(db) {
 			return;
 		}
 
-		let data = { tcp, udp };
+		let data = { tcp: [], udp: results };
 
 		let x = await db.histories.update(
 			{

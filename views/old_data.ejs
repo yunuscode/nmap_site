@@ -8,104 +8,124 @@
 		<link rel="stylesheet" href="../style.css" />
 	</head>
 	<body>
-		<p id="id" class="none"><%= data.history_id %></p>
-		<div id="first_show_section" class="container none">
-			<div class="header">
-				<h2 class="title">Self-Scan</h2>
-			</div>
-
-			<main>
-				<p class="policy">
-					The self-scan attempts to find possible entry points for
-					hackers into your externally available infrastructure.
-					Please click on "START TEST" to test your system.
-				</p>
-
-				<div class="wrapper">
-					<button class="start_scan">Start scan</button>
-					<label class="checkbox_wrapper">
-						<input
-							class="input_checkbox"
-							type="checkbox"
-							name=""
-							id="checkbox"
-							checked
-						/>
-						<p>I agree to have my system scanned from externally</p>
-					</label>
+		<div class="main_wrapper">
+			<p id="id" class="none"><%= data.history_id %></p>
+			<div id="first_show_section" class="container none">
+				<div class="header">
+					<h2 class="title">Self-Scan</h2>
 				</div>
-			</main>
-		</div>
-		<div id="second_show_section" class="container none">
-			<div class="header">
-				<h2 class="title">Self-Scan progress...</h2>
-			</div>
 
-			<main>
-				<div class="white_wrapper">
+				<main>
 					<p class="policy">
-						We are scanning your system. Please wait...
+						The self-scan attempts to find possible entry points for
+						hackers into your externally available infrastructure.
+						Please click on "START TEST" to test your system.
 					</p>
 
-					<div class="progress_bar">
-						<div class="fluid">
-							<p class="fluid_text">35%</p>
+					<div class="wrapper">
+						<button class="start_scan">Start scan</button>
+						<label class="checkbox_wrapper">
+							<input
+								class="input_checkbox"
+								type="checkbox"
+								name=""
+								id="checkbox"
+								checked
+							/>
+							<p>
+								I agree to have my system scanned from
+								externally
+							</p>
+						</label>
+					</div>
+				</main>
+			</div>
+			<div id="second_show_section" class="container none">
+				<div class="header">
+					<h2 class="title">Self-Scan progress...</h2>
+				</div>
+
+				<main>
+					<div class="white_wrapper">
+						<p class="policy">
+							We are scanning your system. Please wait...
+						</p>
+
+						<div class="progress_bar">
+							<div class="fluid">
+								<p class="fluid_text">35%</p>
+							</div>
 						</div>
 					</div>
-				</div>
-			</main>
-		</div>
-
-		<div id="third_show_section" class="container">
-			<div class="header">
-				<h2 class="title">Self-Scan</h2>
+				</main>
 			</div>
 
-			<main>
-				<div class="white_wrapper">
-					<div class="top_header">
-						<img
-							class="traffic_image"
-							src="../traffic.png"
-							alt="Traffic"
-						/>
-						<div class="warning_wrapper">
-							<h2 class="warning_title">Warning!</h2>
-							<p class="warning_text">
-								The scanner detected a few possible
-								vulnerabilities
-							</p>
-						</div>
-					</div>
+			<div id="third_show_section" class="container">
+				<div class="header">
+					<h2 class="title">Self-Scan</h2>
+				</div>
 
-					<table>
-						<thead>
-							<tr>
-								<th>Services</th>
-								<th>Details</th>
-							</tr>
-						</thead>
-						<tbody class="tbody">
-							<!-- <tr>
+				<main>
+					<div class="white_wrapper">
+						<div class="top_header">
+							<img
+								class="traffic_image"
+								src="../traffic.png"
+								alt="Traffic"
+							/>
+							<div class="warning_wrapper">
+								<h2 class="warning_title">Warning!</h2>
+								<p class="warning_text">
+									The scanner detected a few possible
+									vulnerabilities
+								</p>
+							</div>
+						</div>
+
+						<table>
+							<thead>
+								<tr>
+									<th>Services</th>
+									<th>Details</th>
+								</tr>
+							</thead>
+							<tbody class="tbody">
+								<!-- <tr>
 								<td>80 Port</td>
 								<td>Opened</td>
 							</tr> -->
-						</tbody>
-					</table>
-				</div>
+							</tbody>
+						</table>
+					</div>
 
-				<div
-					style="margin-top: 40px; display: flex; align-items: center"
-				>
-					<button id="copy_link" class="start_scan">
-						Copy results link
+					<div
+						style="
+							margin-top: 40px;
+							display: flex;
+							align-items: center;
+						"
+					>
+						<button id="copy_link" class="start_scan">
+							Copy results link
+						</button>
+						<p style="margin-left: 20px">
+							You can copy the results to the next scan in a link
+							which will be valid for the next 10 days
+						</p>
+					</div>
+				</main>
+			</div>
+
+			<div class="footer">
+				<div class="footer_top"></div>
+				<div class="footer_main">
+					<button id="printButton" class="footer_link">
+						Imprint
 					</button>
-					<p style="margin-left: 20px">
-						You can copy the results to the next scan in a link
-						which will be valid for the next 10 days
-					</p>
+					<p>|</p>
+					<a class="footer_link" href="#">Contact</a>
 				</div>
-			</main>
+			</div>
 		</div>
 		<script>
 			const checkbox = document.querySelector("#checkbox");
@@ -127,6 +147,22 @@
 			const fluid_text = document.querySelector(".fluid_text");
 			const table = document.querySelector("#table");
 			const copy_info = document.querySelector("#copy_info");
+			const print_button = document.querySelector("#printButton");
+			const white_wrapper = document.querySelector(".white_wrapper");
+
+			print_button.addEventListener("click", (event) => {
+				print();
+			});
+
+			window.addEventListener("beforeprint", (e) => {
+				white_wrapper.classList.add("none");
+				copy_info.classList.add("none");
+			});
+
+			window.addEventListener("afterprint", (e) => {
+				white_wrapper.classList.remove("none");
+				copy_info.classList.remove("none");
+			});
 
 			checkbox.addEventListener("change", (evt) => {
 				button.disabled = !evt.target.checked;
