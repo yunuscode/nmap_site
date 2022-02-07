@@ -8,7 +8,7 @@ async function checkUDP(ip) {
 			throw new Error("Invalid id");
 		}
 
-		let query = `nmap -Pn -sU -sT --top-ports -v`;
+		let query = `nmap -Pn -sU --top-ports 200 -sT --top-ports 50`;
 
 		if (net.isIPv6(ip)) {
 			query += `-6 `;
